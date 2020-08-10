@@ -1,3 +1,3 @@
-module github.com/miekg/pkcs11
+module github.com/bruj0/pkcs11
 
-go 1.12
+go 1.13

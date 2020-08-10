@@ -62,7 +62,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/miekg/pkcs11"
+	"github.com/bruj0/pkcs11"
 )
 
 var modules = make(map[string]Module)
