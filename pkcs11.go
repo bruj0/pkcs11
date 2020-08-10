@@ -770,9 +770,11 @@ static inline CK_VOID_PTR getAttributePval(CK_ATTRIBUTE_PTR a)
 
 */
 import "C"
-import "strings"
-
-import "unsafe"
+import (
+	"fmt"
+	"strings"
+	"unsafe"
+)
 
 // Ctx contains the current pkcs11 context.
 type Ctx struct {
@@ -956,6 +958,7 @@ func (c *Ctx) SetPIN(sh SessionHandle, oldpin string, newpin string) error {
 // OpenSession opens a session between an application and a token.
 func (c *Ctx) OpenSession(slotID uint, flags uint) (SessionHandle, error) {
 	var s C.CK_SESSION_HANDLE
+	fmt.Printf("PKCS11 OpenSession variables: \n c.ctx=%#v \n slotID=%#v \n flags=%#v \n session=%#v\n", c.ctx, slotID, flags, s)
 	e := C.OpenSession(c.ctx, C.CK_ULONG(slotID), C.CK_ULONG(flags), C.CK_SESSION_HANDLE_PTR(&s))
 	return SessionHandle(s), toError(e)
 }
