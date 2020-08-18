@@ -774,6 +774,8 @@ import (
 	"fmt"
 	"strings"
 	"unsafe"
+
+	"github.com/davecgh/go-spew/spew"
 )
 
 // Ctx contains the current pkcs11 context.
@@ -958,7 +960,8 @@ func (c *Ctx) SetPIN(sh SessionHandle, oldpin string, newpin string) error {
 // OpenSession opens a session between an application and a token.
 func (c *Ctx) OpenSession(slotID uint, flags uint) (SessionHandle, error) {
 	var s C.CK_SESSION_HANDLE
-	fmt.Printf("PKCS11 OpenSession variables: \n c.ctx=%#v \n slotID=%#v \n flags=%#v \n session=%#v\n", c.ctx, slotID, flags, s)
+	fmt.Printf("miekg/pkcs11 OpenSession: c.ctx=%s , slotID=%s , flags=%s , session=%s, C.CK_SESSION_HANDLE_PTR(&s)=%s\n",
+		spew.Sdump(c.ctx.handle), spew.Sdump(slotID), spew.Sdump(flags), spew.Sdump(s), spew.Sdump(C.CK_SESSION_HANDLE_PTR(&s)))
 	e := C.OpenSession(c.ctx, C.CK_ULONG(slotID), C.CK_ULONG(flags), C.CK_SESSION_HANDLE_PTR(&s))
 	return SessionHandle(s), toError(e)
 }
